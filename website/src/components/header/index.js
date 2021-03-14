@@ -1,5 +1,6 @@
 import homeIcon from "../../assets/images/icon1.png";
 import UserAccount from "./UserAccount";
+import route from "../../route/";
 
 const Header = () => {
 
@@ -7,12 +8,12 @@ const Header = () => {
         <div className="container">
             <div className="header-data">
                 <div className="logo">
-                    <a href="#" title=""><img src="http://via.placeholder.com/34x34" alt=""/></a>
+                    <a href={route('home')} title=""><img src="http://via.placeholder.com/34x34" alt=""/></a>
                 </div>
                 <nav>
                     <ul>
                         <li>
-                            <a href="#" title=""  >
+                            <a href={route('home')} title=""  >
                                 <span><img src={homeIcon} alt=""/></span>
                                 Home
                             </a>
