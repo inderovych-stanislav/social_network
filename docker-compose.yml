@@ -1,9 +1,23 @@
 version: '3.7'
 
 services:
+  gateway:
+    image: nginx:latest
+    env_file: .env
+    depends_on:
+      - web_app
+    expose:
+      - "80"
+    volumes:
+      - "./docker/nginx/nginx.conf:/etc/nginx/nginx.conf"
+      - "./docker/nginx/website.template:/etc/nginx/conf.d/website.template"
+      - "./docker/nginx/entrypoint.sh:/entrypoint.sh"
+      - "./logs/nginx:/var/log/nginx"
+    command: /entrypoint.sh
+
   web_app:
     image: node:15
     working_dir: /app
     volumes:
       - "./website/:/app"
-    command: 'make npm_run'
+    command: make npm_run
