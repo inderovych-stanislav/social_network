@@ -1,6 +1,6 @@
 import Default from "../layouts/Default";
 import Main from "../components/Main";
-import Login from "../components/Login";
+import Login from "../components/login";
 import Auth from "../layouts/Auth";
 import NotFound from "../components/NotFound";
 
