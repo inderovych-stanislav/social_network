@@ -17,6 +17,7 @@ services:
 
   web_app:
     image: node:15
+    env_file: .env
     working_dir: /app
     volumes:
       - "./website/:/app"
