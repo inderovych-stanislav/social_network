@@ -1,0 +1,22 @@
+server {
+    listen       80;
+    server_name  ${API_HOST};
+
+    root       /api/public;
+    index      index.php;
+
+    access_log /dev/stdout;
+    error_log  /dev/stdout warn;
+
+    location / {
+        try_files $uri $uri/ index.php$is_args$args;
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass         api_app:9000;
+        fastcgi_param        SCRIPT_FILENAME /app/public/index.php;
+        include              fastcgi_params;
+        fastcgi_index        index.php;
+        fastcgi_read_timeout 60;
+    }
+}

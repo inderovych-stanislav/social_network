@@ -7,6 +7,3 @@ npm_install:
 
 npm_run:
 	yarn run start
-
-env_copy:
-	cp .env.example .env

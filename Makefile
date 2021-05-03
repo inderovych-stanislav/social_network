@@ -35,12 +35,16 @@ docom:
 #: Setup project after repo clone
 init:
 	make env_copy
-	$(docom) pull
-	make npm_install
+	$(docom) pull web_app gateway mysql
+	$(docom) build api_app
+	make vendors_install
+	make file_permissions
+	make api_app c="make key_generate"
 
-#: Install npm packages
-npm_install:
+#: Install vendors packages
+vendors_install:
 	make web_app c="make npm_install"
+	make api_app c="make composer_install"
 
 #: Run project
 run:
@@ -53,13 +57,23 @@ pull:
 #: Copy .env from examples
 env_copy:
 	cp .env.example .env
+	cp website/.env.example website/.env
+	cp api/.env.example api/.env
+
+#: Set proper files/folders permissions
+file_permissions:
+	make api_app c="make file_permissions"
 
 #:
 #: Docker containers
 #:
 
-.PHONY: web_app
+.PHONY: web_app api_app
 
 #: Alias for web_app container
 web_app:
 	$(call docom_run, web_app, $c)
+
+#: Alias for api_app container
+api_app:
+	$(call docom_run, api_app, $c)
