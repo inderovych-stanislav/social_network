@@ -1,60 +1,70 @@
+import {useState} from "react";
+import {authActions} from "../../actions/authActions";
+import {connect} from "react-redux";
 
-const SignUp = () =>
-    <div className="sign_in_sec current" >
+const SignUp = (props) => {
+
+    const [email, setEmail] = useState('');
+    const [name, setName] = useState('');
+    const [password, setPassword] = useState('');
+    const [passwordConfirmation, setPasswordConfirmation] = useState('');
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        if (email && name && password && passwordConfirmation) {
+            props.register({email, name, password, passwordConfirmation});
+        }
+    };
+
+    return <div className="sign_in_sec current">
         <h3>Sign up</h3>
-        <form>
+        <form onSubmit={submitForm}>
             <div className="row">
                 <div className="col-lg-12 no-pdd">
                     <div className="sn-field">
-                        <input type="text" name="name" placeholder="Full Name"/>
+                        <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value) }/>
+                        <i className="la la-at"/>
+                    </div>
+                </div>
+                <div className="col-lg-12 no-pdd">
+                    <div className="sn-field">
+                        <input type="text" placeholder="Name" value={name} onChange={e => setName(e.target.value) }/>
                         <i className="la la-user"/>
                     </div>
                 </div>
                 <div className="col-lg-12 no-pdd">
                     <div className="sn-field">
-                        <input type="text" name="country" placeholder="Country"/>
-                        <i className="la la-globe"/>
-                    </div>
-                </div>
-                <div className="col-lg-12 no-pdd">
-                    <div className="sn-field">
-                        <select>
-                            <option>Category</option>
-                        </select>
-                        <i className="la la-dropbox"/>
-                        <span><i className="fa fa-ellipsis-h"/></span>
-                    </div>
-                </div>
-                <div className="col-lg-12 no-pdd">
-                    <div className="sn-field">
-                        <input type="password" name="password" placeholder="Password"/>
+                        <input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value) }/>
                         <i className="la la-lock"/>
                     </div>
                 </div>
                 <div className="col-lg-12 no-pdd">
                     <div className="sn-field">
-                        <input type="password" name="repeat-password"
-                               placeholder="Repeat Password"/>
+                        <input type="password"
+                               placeholder="Confirm Password" value={passwordConfirmation} onChange={e => setPasswordConfirmation(e.target.value) }/>
                         <i className="la la-lock"/>
                     </div>
                 </div>
                 <div className="col-lg-12 no-pdd">
-                    <div className="checky-sec st2">
-                        <div className="fgt-sec">
-                            <input type="checkbox" name="cc" id="c2"/>
-                            <label htmlFor="c2">
-                                <span></span>
-                            </label>
-                            <small>Yes, I understand and agree to Terms &
-                                Conditions.</small>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-lg-12 no-pdd">
-                    <button type="submit" value="submit">Get Started</button>
+                    {props.isLoading ? '': <button type="submit" value="submit">Get Started</button>}
                 </div>
             </div>
         </form>
     </div>
+}
 
-export default SignUp;
+const mapStateToProps = state => {
+    return ({
+        isLoading: state.auth.isLoading,
+        error: state.auth.error
+    })
+};
+
+const mapDispatchToProps = dispatch => ({
+    register: (user) => dispatch(authActions.registerRequest(user)),
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SignUp)
