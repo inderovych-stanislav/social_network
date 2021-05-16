@@ -9,7 +9,7 @@ list:
 composer = php -d memory_limit=4096M /usr/bin/composer
 artisan = php artisan
 
-.PHONY: file_permissions composer_install composer_update artisan_clean key_generate
+.PHONY: file_permissions composer_install composer_update artisan_clean key_generate db_migrate db_fresh
 
 file_permissions:
 	chown -R www-data:www-data bootstrap/cache
@@ -34,3 +34,9 @@ artisan_clean:
 	$(artisan) config:clear
 	$(artisan) route:clear
 	$(artisan) view:clear
+
+db_migrate:
+	$(artisan) migrate
+
+db_fresh:
+	$(artisan) migrate:fresh

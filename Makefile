@@ -26,7 +26,7 @@ help:
 #: Run commands
 #:
 
-.PHONY: docom init npm_install run pull env_copy
+.PHONY: docom init npm_install run pull env_copy db_migrate
 
 #: Alias to docker-compose
 docom:
@@ -46,6 +46,10 @@ vendors_install:
 	make web_app c="make npm_install"
 	make api_app c="make composer_install"
 
+#: Run the database migrations
+db_migrate:
+	make api_app c="make db_migrate"
+
 #: Run project
 run:
 	$(docom) up
@@ -63,6 +67,7 @@ env_copy:
 #: Set proper files/folders permissions
 file_permissions:
 	make api_app c="make file_permissions"
+
 
 #:
 #: Docker containers

@@ -3,7 +3,11 @@ import {authConstants} from "../constants/authConstants";
 export const authActions = {
     loginRequest,
     loginSuccess,
-    loginFailure
+    loginFailure,
+    logout,
+    registerRequest,
+    registerSuccess,
+    registerFailure
 }
 
 function loginRequest(user) {
@@ -23,6 +27,33 @@ function loginSuccess(user) {
 function loginFailure(error) {
     return {
         type: authConstants.LOGIN_FAILURE,
+        error
+    }
+}
+
+function logout() {
+    return {
+        type: authConstants.LOGOUT
+    }
+}
+
+function registerRequest(user) {
+    return {
+        type: authConstants.REGISTER_REQUEST,
+        user
+    }
+}
+
+function registerSuccess(user) {
+    return {
+        type: authConstants.REGISTER_SUCCESS,
+        user
+    }
+}
+
+function registerFailure(error) {
+    return {
+        type: authConstants.REGISTER_FAILURE,
         error
     }
 }

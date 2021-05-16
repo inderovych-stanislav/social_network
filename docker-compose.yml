@@ -30,7 +30,7 @@ services:
     build:
       context: ./api/docker/
     env_file:
-      - ./api/.env
+      - .env
     depends_on:
       - mysql
     volumes:

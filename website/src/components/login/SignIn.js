@@ -3,13 +3,13 @@ import {connect} from "react-redux";
 import {authActions} from "../../actions/authActions";
 
 const SignIn = (props) => {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const submitForm = (e) => {
         e.preventDefault();
-        if (username && password) {
-            props.login(username, password);
+        if (email && password) {
+            props.login(email, password);
         }
     };
 
@@ -19,8 +19,8 @@ const SignIn = (props) => {
             <div className="row">
                 <div className="col-lg-12 no-pdd">
                     <div className="sn-field">
-                        <input type="text" name="username" placeholder="Username" value={username} onChange={e => setUsername(e.target.value) }/>
-                        <i className="la la-user"/>
+                        <input type="text" name="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value) }/>
+                        <i className="la la-at"/>
                     </div>
                 </div>
                 <div className="col-lg-12 no-pdd">
@@ -28,18 +28,7 @@ const SignIn = (props) => {
                         <input type="password" name="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
                         <i className="la la-lock"/>
                     </div>
-                </div>
-                <div className="col-lg-12 no-pdd">
-                    <div className="checky-sec">
-                        <div className="fgt-sec">
-                            <input type="checkbox" name="cc" id="c1"/>
-                            <label htmlFor="c1">
-                                <span></span>
-                            </label>
-                            <small>Remember me</small>
-                        </div>
-                        <a href="#" title="">Forgot Password?</a>
-                    </div>
+                    {props.error ? props.error : ''}
                 </div>
                 <div className="col-lg-12 no-pdd">
                     {props.isLoading ? '': <button type="submit" value="submit">Sign in</button>}
@@ -57,7 +46,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => ({
-    login: (username, password) => dispatch(authActions.loginRequest({username, password})),
+    login: (email, password) => dispatch(authActions.loginRequest({email, password})),
 });
 
 export default connect(

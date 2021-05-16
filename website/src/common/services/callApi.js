@@ -1,3 +1,4 @@
+import {authUser} from "../../helpers/authUser";
 
 export const callApi = {
     async exec(url, formData) {
@@ -19,7 +20,6 @@ export const callApi = {
             console.error('apiCall', e);
             throw new Error('Oops something went wrong :( Please contact your administrator.');
         }
-
         if (response.status >= 400 && response.status < 600) {
 
             throw new Error(response.message || response.statusText);
@@ -30,10 +30,9 @@ export const callApi = {
 };
 
 const authHeader = () => {
-    let user = JSON.parse(localStorage.getItem('user'));
 
-    if (user && user.token) {
-        return { 'Authorization': 'Bearer ' + user.token };
+    if (authUser.hasToken()) {
+        return { 'Authorization': 'Bearer ' + authUser.getToken() };
     } else {
         return {};
     }
